@@ -1,4 +1,4 @@
-package com.me;
+package com.me.streams;
 
 import org.junit.Test;
 
