@@ -250,6 +250,5 @@ public class ConcurrentOverview {
         })).limit(10).collect(Collectors.toList());
 
         workers.forEach(Thread::start);
-
     }
 }
