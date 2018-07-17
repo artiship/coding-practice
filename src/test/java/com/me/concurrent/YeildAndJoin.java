@@ -43,7 +43,6 @@ public class YeildAndJoin {
         Thread t1 = new Thread(() -> {
             log.info("first task started");
             log.info("first task sleep 2 seconds");
-
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
