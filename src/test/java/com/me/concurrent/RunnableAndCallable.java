@@ -1,11 +1,11 @@
 package com.me.concurrent;
 
-import com.sun.xml.internal.ws.api.pipe.Fiber;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.security.InvalidParameterException;
 import java.util.concurrent.*;
 
 import static org.junit.Assert.assertEquals;
@@ -13,6 +13,26 @@ import static org.junit.Assert.assertEquals;
 public class RunnableAndCallable {
 
     private ExecutorService executorService;
+
+    class FactorialTask implements Callable<Integer> {
+        int number;
+
+        public FactorialTask(int number) {
+            this.number = number;
+        }
+
+        @Override
+        public Integer call() throws InvalidParameterException {
+            if(number < 0) {
+                throw new InvalidParameterException("Number should be positive");
+            }
+            int fact = 1;
+            for (int count = number; count > 1; count--) {
+                fact = fact * count;
+            }
+            return fact;
+        }
+    }
 
     @Before
     public void setUp() {
@@ -54,23 +74,6 @@ public class RunnableAndCallable {
      * call() method - which returns a generic value V.
      */
     withCallable() {
-        class FactorialTask implements Callable<Integer> {
-            int number;
-
-            public FactorialTask(int number) {
-                this.number = number;
-            }
-
-            @Override
-            public Integer call() throws Exception {
-                int fact = 1;
-                for (int count = number; count > 1; count--) {
-                    fact = fact * count;
-                }
-                return fact;
-            }
-        }
-
         Future<Integer> future = executorService.submit(new FactorialTask(5));
 
         try {
@@ -81,9 +84,19 @@ public class RunnableAndCallable {
             e.printStackTrace();
         }
     }
-    
-    @Test public void
-    for_example_exception_handling() {
 
+    @Test(expected = ExecutionException.class) public void
+    whenException_thenCallableThrowIt() throws ExecutionException, InterruptedException {
+        FactorialTask canFailTask = new FactorialTask(-5);
+        Future<Integer> future = executorService.submit(canFailTask);
+        int i = future.get().intValue();
+    }
+
+    @Test public void
+    when_exception_then_callable_does_not_throws_it_if_get_is_not_called() {
+        FactorialTask canFailTask = new FactorialTask(-5);
+        Future<Integer> future = executorService.submit(canFailTask);
+
+        assertEquals(false, future.isDone());
     }
 }
