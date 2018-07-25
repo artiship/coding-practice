@@ -15,9 +15,13 @@ public class SynchronizedKeyword {
     public class SynchronizedMethods {
          private int sum = 0;
 
-         public void calculate() {
-             setSum(getSum() + 1);
-         }
+        public void calculate() {
+            setSum(getSum() + 1);
+        }
+
+        public synchronized void synchronizedCalculate() {
+            setSum(getSum() + 1);
+        }
 
         public int getSum() {
             return sum;
@@ -34,12 +38,25 @@ public class SynchronizedKeyword {
 
         SynchronizedMethods synchronizedMethods = new SynchronizedMethods();
 
-        IntStream.range(0, 100)
+        IntStream.range(0, 1000)
                 .forEach(count -> executorService.submit(synchronizedMethods::calculate));
 
         executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
 
         assertNotEquals(1000, synchronizedMethods.getSum());
+    }
+
+    @Test public void
+    given_multi_thread_when_method_sync() throws InterruptedException {
+        ExecutorService executorService = Executors.newFixedThreadPool(3);
+        SynchronizedMethods synchronizedMethods = new SynchronizedMethods();
+
+        IntStream.range(0, 1000)
+                .forEach(count -> executorService.submit(synchronizedMethods::synchronizedCalculate));
+
+        executorService.awaitTermination(100, TimeUnit.MILLISECONDS);
+
+        assertEquals(1000, synchronizedMethods.getSum());
     }
 
 }
