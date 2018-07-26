@@ -23,6 +23,12 @@ public class SynchronizedKeyword {
             setSum(getSum() + 1);
         }
 
+        public void synchronizedBlock() {
+            synchronized (this) {
+                setSum(getSum() + 1);
+            }
+        }
+
         public int getSum() {
             return sum;
         }
