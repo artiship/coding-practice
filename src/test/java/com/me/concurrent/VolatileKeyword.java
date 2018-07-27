@@ -12,5 +12,22 @@ package com.me.concurrent;
  */
 public class VolatileKeyword {
 
+    /**
+     * 1. it can avoid race condition by ensuring the visibility.
+     * 2. the atomic data types like AtomicInt or AtomicLong which also
+     * can be used to avoid race condition.
+     */
+    class SharedClass {
+        private volatile int count = 0;
+
+        public void increamentCount() {
+            count++;
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+
 
 }
