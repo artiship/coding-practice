@@ -43,7 +43,7 @@ public class GuideToFuture {
     future_is_canceled () throws ExecutionException, InterruptedException {
         Future<Integer> future = new SquareCalculator().calculate(4);
 
-        boolean canceled = future.cancel(true);
+        boolean canceled = future.cancel(   true);
 
         future.get();
     }
