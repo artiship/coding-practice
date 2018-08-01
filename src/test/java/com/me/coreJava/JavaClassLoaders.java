@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 public class JavaClassLoaders {
     @Test public void
     printClassloaders() {
-        
+
         assertNull(ArrayList.class.getClassLoader());
 
         assertThat(Logging.class.getClassLoader().toString(),
