@@ -10,7 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * segment of code, apart from the thread that's executing it currently.
  *
  * The main difference between a Lock and Synchronized block is that synchronized
- * block is fully contained in method; however, we can hbase Lock API's lock() and
+ * block is fully contained in method; however, we can have Lock API's lock() and
  * unlock() operation in separate methods.
  */
 public class CocurrentLocks {
@@ -27,9 +27,9 @@ public class CocurrentLocks {
         }
 
         try {
-            boolean isLockAquired = lock.tryLock(1, TimeUnit.SECONDS);
+            boolean isLockAcquired = lock.tryLock(1, TimeUnit.SECONDS);
 
-            if (isLockAquired) {
+            if (isLockAcquired) {
                 //critical
             }
         } catch (InterruptedException e) {
