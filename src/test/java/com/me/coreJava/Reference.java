@@ -49,4 +49,8 @@ public class Reference {
         user.setName("Bob");
         user = null;
     }
+
+    @Test public void size() {
+        System.out.println(Long.toBinaryString(1L << 10));
+    }
 }
