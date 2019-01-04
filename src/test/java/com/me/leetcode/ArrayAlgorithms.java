@@ -69,7 +69,13 @@ public class ArrayAlgorithms {
         return false;
     }
 
-    @Test public void test() {
+    public int singleNumber(int arr[]) {
+        int result = 0;
+        for (int i: arr) result ^= i;
+        return result;
+    }
+
+   @Test public void test() {
         int[] nums = new int[]{1, 1, 2, 2, 2, 2};
         int counts = removeDuplicates(nums);
         Assert.assertEquals(2, counts);
@@ -84,5 +90,7 @@ public class ArrayAlgorithms {
 
         Assert.assertEquals(true, containsDuplicate(new int[]{1, 2, 1}));
         Assert.assertEquals(false, containsDuplicate(new int[]{1, 2, 3}));
+
+        Assert.assertEquals(1, singleNumber(new int[]{2,2,1}));
     }
 }
