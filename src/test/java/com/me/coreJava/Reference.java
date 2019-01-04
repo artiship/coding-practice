@@ -53,4 +53,23 @@ public class Reference {
     @Test public void size() {
         System.out.println(Long.toBinaryString(1L << 10));
     }
+
+
+    @Test public void auto_boxing() {
+        Integer A = 128; //Auto boxing uses valueOf of the object type
+        Integer B = 128;
+
+        // These are two different objects
+        Assert.assertEquals(true, A != B);
+
+        Integer C = 2;
+        Integer D = 2;
+
+        //In java, all the Integer objects that value between -128 to 127
+        //will be cached. When a new Integer object which value belong to this
+        //range and if there is an object has the same value. The object will
+        //return. This can avoid creating a lot of un-useful objects and result
+        //in GC.
+        Assert.assertEquals(true, C == D);
+    }
 }
