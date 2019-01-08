@@ -1,8 +1,12 @@
 package com.me.concurrent;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class YeildAndJoin {
     Logger log = LoggerFactory.getLogger(YeildAndJoin.class);
@@ -61,5 +65,38 @@ public class YeildAndJoin {
             e.printStackTrace();
         }
         t2.start();
+    }
+
+    private List<Integer> list = new ArrayList<>();
+
+    @Test public void
+    test_join() throws InterruptedException {
+        for (int i = 0; i < 10; i++) {
+            test();
+        }
+        list.clear();
+    }
+
+    public void test() throws InterruptedException {
+        Runnable runnable = () -> {
+            for (int i = 0; i < 10000; i++) {
+                    list.add(i);
+            }
+        };
+
+
+        Thread t1 = new Thread(runnable);
+        Thread t2 = new Thread(runnable);
+        Thread t3 = new Thread(runnable);
+
+        t1.start();
+        t2.start();
+        t3.start();
+
+        t1.join();
+        t2.join();
+        t3.join();
+        //Since ArrayList is not thread safe, this list size is random and might even cause ArrayIndexOutOfBoundsException
+        //Assert.assertEquals(3 * 10000, list.size());
     }
 }
